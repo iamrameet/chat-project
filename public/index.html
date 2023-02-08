@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Document</title>
+  <link rel="stylesheet" href="styles/main.css"/>
+  <link rel="stylesheet" href="styles/messages.css"/>
+  <script src="scripts/ui-component.js"></script>
+  <script src="socket.io/socket.io.js"></script>
+  <script src="scripts/fn-stack.js"></script>
+  <script src="scripts/main.js"></script>
+</head>
+<body>
+  <div id="mainArea" class="container row main w-fill h-fill no-padding">
+
+    <div id="leftPane" class="container h-fill no-padding">
+
+      <div class="container row w-fill gap center relative header">
+        <div id="userPicture" class="container box size-1 circle no-padding center"></div>
+        <div id="userFullname" class="container w-fill no-padding">Username</div>
+        <details id="menu" class="container h-fill no-padding">
+          <summary class="container h-fill center button icon w-auto pad gap-half">
+            <svg viewBox="0 0 32 32">
+              <use href="icons/icon.svg#menu"></use>
+            </svg>
+          </summary>
+          <ul class="container drop-down">
+            <li>
+              <button id="addGroupButton" class="button icon gap-1 small">
+                <svg viewBox="0 0 32 32">
+                  <use href="icons/icon.svg#group"></use>
+                </svg>
+                <span>Create group</span>
+              </button>
+            </li>
+            <li>
+              <a href="/api/user/logout" class="button icon gap-1 small">
+                <svg viewBox="0 0 32 32">
+                  <use href="icons/icon.svg#logout"></use>
+                </svg>
+                <span>Logout</span>
+              </a>
+            </li>
+          </ul>
+        </details>
+      </div>
+
+      <div class="container row w-fill no-padding border-primary">
+        <button id="chatsButton" class="container row gap w-fill center active">
+          <div class="icon">
+            <svg viewBox="0 0 32 32">
+              <use href="icons/icon.svg#menu"></use>
+            </svg>
+          </div>
+          <span>Conversations</span>
+        </button>
+        <button id="findButton" class="container row gap w-fill center">
+          <div class="icon">
+            <svg viewBox="0 0 32 32">
+              <use href="icons/icon.svg#search"></use>
+            </svg>
+          </div>
+          <span>Search User</span>
+        </button>
+      </div>
+
+      <ul id="chats" class="container w-fill h-fill no-padding overflow-auto"></ul>
+
+    </div>
+
+    <div id="rightPane" class="container w-fill h-fill no-padding overflow-hide">
+      <div id="chatArea" class="container w-fill h-fill no-padding center"></div>
+    </div>
+
+    <div id="spinnerArea" class="container fixed w-fill h-fill center over-top">
+      <div class="spinner"></div>
+    </div>
+
+    <div id="registerArea" class="container fixed w-fill h-fill center over-top">
+      <form id="registrationForm" action="/api/user" method="post" class="container">
+        <div class="title">Register</div>
+        <div class="container input">
+          <input type="text" name="name" id="register-name" placeholder="Name" required="true"/>
+          <label for="register-name">Name</label>
+        </div>
+        <div class="container input">
+          <input type="text" name="username" id="register-username" placeholder="Username" required="true"/>
+          <label for="register-username">Username</label>
+        </div>
+        <div class="container input">
+          <input type="text" name="password" id="register-password" placeholder="Password" required="true"/>
+          <label for="register-password">Password</label>
+        </div>
+        <button type="submit" class="small margin">Register</button>
+      </form>
+      <div class="container row gap center">Already have an account?
+        <button id="loginSwitch" type="button active" class="pad-1">Login</button>
+      </div>
+    </div>
+
+    <div id="loginArea" class="container fixed w-fill h-fill center over-top">
+      <form id="loginForm" action="/api/user/auth" method="post" class="container">
+        <div class="title">Login</div>
+        <div class="container input">
+          <input type="text" name="username" id="login-username" placeholder="Username" required="true"/>
+          <label for="login-username">Username</label>
+        </div>
+        <div class="container input">
+          <input type="password" name="password" id="login-password" placeholder="Password" required="true"/>
+          <label for="login-password">Password</label>
+        </div>
+        <button type="submit" class="small margin">Login</button>
+      </form>
+      <div class="container row gap center">Didn't have an account?
+        <button id="registerSwitch" type="button active" class="pad-1">Register</button>
+      </div>
+    </div>
+
+    <div id="addGroupArea" class="container fixed w-fill h-fill center over-top">
+      <form id="addGroupForm" action="/api/chat?is_group=true" method="post" class="container" style="max-width: 400px;">
+        <div class="title">Create Group</div>
+        <div class="container input">
+          <input type="text" name="title" id="add-group-title" placeholder="Group title" required="true"/>
+          <label for="add-group-title">Group title</label>
+        </div>
+        <div class="container input">
+          <input type="hidden" name="user_ids" required="true"/>
+          <input type="search" id="addGroupQuery" placeholder="Search user" form="queryForm"/>
+          <label for="addGroupQuery">Search user</label>
+        </div>
+        <div class="container input relative" style="margin: -0.5rem 0.5rem 0rem;">
+          <div id="userSearchSuggetions" class="suggestions"></div>
+        </div>
+        <div id="addGroupUserCapsules" class="container row w-fill gap wrap center start"></div>
+        <button type="submit" class="small margin">Create Group</button>
+      </form>
+    </div>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+.message{
+  padding: 0.25rem 1rem;
+}
+.message.right{
+  align-items: flex-end;
+}
+.message .name{
+  padding: 0px;
+  font-size: smaller;
+  color: #444;
+}
+.message .content{
+  padding: 0.5rem 0.75rem;
+  max-width: 60%;
+  line-height: 1.5rem;
+  background-color: #222;
+  color: #eee;
+  font-size: medium;
+  border-radius: 8px;
+  line-break: anywhere;
+}
+.message.right .content{
+  background-color: var(--secondary-color);
+}
